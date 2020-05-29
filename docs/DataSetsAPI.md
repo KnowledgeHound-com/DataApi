@@ -40,7 +40,7 @@ Provides the ability to list, access, create, or modify the datasets this accoun
 ```
 
 ### Create a dataset
-- URL: `/v2/dataset`
+- URL: `/v2/dataset/{dataset_id}`
 - Methods: `POST`
 - Post Body:
 ```json
@@ -64,7 +64,6 @@ Provides the ability to list, access, create, or modify the datasets this accoun
   "errors": ["strings"]
 }
 ```
-
 ### Modify a dataset
 - URL: `/v2/dataset/{dataset_id}`
 - Methods: `PUT`
@@ -90,6 +89,7 @@ Provides the ability to list, access, create, or modify the datasets this accoun
   "errors": ["strings"]
 }
 ```
+
 ### Get dataset details
 - URL: `/v2/dataset/{dataset_id}`
 - Methods: `GET`
@@ -122,10 +122,16 @@ This section of the document provides the file specification for transferring da
 - Data is exchange through RFC 4180 compliant csv. https://tools.ietf.org/html/rfc4180
     - Remember to handle open ends and other text that may have commas or quotes!
 - All files are individually compressed using zip compression
+- If the Survey Response dimension file exceeds 2GB decompressed, it should be chunked or partitioned. Each chunk should
+ideally be between 200MB and 2GB. Additionally each chunk must be individually compressed and sent as a discrete file. 
 
 ### Person Dim
-A JSON file containing the list of unique people who have participated in the survey. If the same person exists in
-multiple datasets, their ID and content should remain consistent.
+A JSON file containing the list of unique people who have participated in the survey.
+
+If the same person exists in multiple datasets, their ID should remain consistent. Some countries and research may not 
+allow for the identification of a person across multiple datasets. In these cases, the ID should be an incrementing 
+number that is consistent between the person dimension and the survey response dimension
+
 
 KnowledgeHound has defined several core attributes about a person. These attributes are all optional and sit at the
 root of the person object. Additional attributes may be defined in the attributes object.
@@ -136,13 +142,14 @@ root of the person object. Additional attributes may be defined in the attribute
         {
             "id": "The unique ID for the attribute.",
             "name": "The human readable name for the variable",
-            "description": "description of the attribute (Optional)",
+            "description": "description of the attribute (optional)",
             "visible": "boolean : Defaults to true : Do all users or only admins see the fact",
             "values": [
                 {
                     "id": "string: The unique ID for this value",
                     "value": "string",
-                    "display_value": "string"
+                    "display_value": "string (optional): If no display text is included, the value field is displayed.",
+                    "sort_order": "int (optional): Controls the default ordering in lists and controls. When not sent we apply an alphanumeric sort."
                 }
             ]
         }
@@ -150,8 +157,8 @@ root of the person object. Additional attributes may be defined in the attribute
     "person": [
         {
             "id": "The unique ID from the source system for this person",
-            "first_name": "string (Optional)",
-            "last_name": "string (Optional)",
+            "first_name": "string (optional)",
+            "last_name": "string (optional)",
             "gender": "Male|Female|Non-Binary (optional)",
             "age": "int (optional)",
             "income": "decimal: household income in USD (optional)",
@@ -159,10 +166,10 @@ root of the person object. Additional attributes may be defined in the attribute
             "count_of_children": "int (optional)",
             "marital_status": "divorced|married|separated|single|widowed (optional)",
             "home_ownership": "own|rent|relative (optional)",
-            "email": "string (Optional)",
-            "phone": "string (Optional)",
-            "postal_code": "string (Optional)",
-            "country": "string (Optional)",
+            "email": "string (optional)",
+            "phone": "string (optional)",
+            "postal_code": "string (optional)",
+            "country": "string (optional)",
             "attributes": [
                 {
                     "id": "The variable used in the question template",
@@ -175,20 +182,24 @@ root of the person object. Additional attributes may be defined in the attribute
 ```
 
 ### Survey Dim
-A JSON file defining the programing of the survey
+A JSON file defining the programing of the survey.
+
+Note: The default_crosstabs, suggested_crosstabs, suggested_filters, and default_filters arrays are all optional. They
+may be excluded when not used or sent as empty arrays.
 ```json
 {
     "id": "The unique identifier of the survey",
-    "description": "A description of the survey (optional)",
+    "description": "(optional) A description of the survey",
     "type": "Tracker|OneTime|... full list TBD",
     "status": "Created|Live|Completed",
     "start_date": "The datetime the survey began",
     "responses_as_of_date": "The datetime of the most recent survey response.",
-    "completion_date": "The datetime the survey was completed. Not included if the survey is still open.",
+    "completion_date": "(optional) The datetime the survey was completed. Not included if the survey is still open.",
     "language": "The ISO 639-2 language code for the default survey language : http://www.loc.gov/standards/iso639-2/php/code_list.php",
-    "base_description": "Textual description of the survey base  (optional)",
-    "base_size": "Integer: Count to use as base size, this may be different then response_count when applying weighting (optional)",
-    "response_count": "Integer: Number of responses in the response file(s)",
+    "base_description": "(optional) Textual description of the survey base",
+    "base_size": "int (optional): Count to use as base size, this may be different then response_count when applying weighting",
+    "response_count": "int: Number of responses in the response file(s)",
+    "source_url": "(optional) A url to the original research study in the source system",
     "question_templates": [
         {
             "id": "The unique identifier of the question template",
@@ -197,15 +208,15 @@ A JSON file defining the programing of the survey
                 {
                     "id": "The unique value of the response.",
                     "text": "The displayed response text.",
-                    "media_id": "The id of media content shown. (optional)"
+                    "media_id": "(optional) The id of media content shown."
                 }
             ],
-            "selection_limit": "Integer: The number of permissible values for a categorical question Ex: Pick 1 or Pick 3  (optional)",
+            "selection_limit": "(optional) int: The number of permissible values for a categorical question Ex: Pick 1 or Pick 3",
             "text": "The question presented to the user. (Includes variables when used)",
-            "display_text": "If the question contains a variable, this should be the human readable version of the template. (optional)",
-            "description": "Any additional information about the question (optional)",
-            "visible": "boolean : Defaults to true : Do all users or only admins see the question in KnowledgeHound",
-            "tags": ["string"],
+            "display_text": "(optional) If the question contains a variable, this should be the human readable version of the template. If no display text is included, the text field is displayed.",
+            "description": "(optional) Any additional information about the question",
+            "visible": "boolean (optional): Defaults to true : Do all users or only admins see the question in KnowledgeHound",
+            "tags": ["string (optional)"],
             "variables": [
                 {
                     "id": "The variable used in the question template",
@@ -218,8 +229,9 @@ A JSON file defining the programing of the survey
     "question_groupings": [
         {
             "id": "The unique identifier of the question group",
-            "description": "Optional",
-            "order": 1,
+            "description": "(optional)",
+            "order": "int",
+            "source_url": "(optional) A url to the original question in the source system",
             "variables": [
                 {
                     "id": "VariableId",
@@ -229,35 +241,39 @@ A JSON file defining the programing of the survey
             ],
             "questions": [
                 {
-                    "question_template_id": "string: The id from question_templates[]",
+                    "question_template_id": "string: The id of the question template in the question_templates array",
                     "order":  1
                 }
             ]
         }
     ],
-    "question_flow": "Future support for control logic",
     "variables": [
         {
             "id": "The variable used in the question template",
             "name": "The human readable name for the variable",
-            "description": "Optional",
-            "values": ["strings"],
-            "visible": "boolean : Defaults to true : Do all users or only admins see the variable in KnowledgeHound"
+            "description": "(optional)",
+            "values": [{
+                "value": "string",
+                "display_value": "(optional): If no display text is included, the value field is displayed.",
+                "sort_order": "int (optional): Controls the default ordering in lists and controls. When not sent we apply an alphanumeric sort."
+            }],
+            "visible": "boolean (optional): Defaults to true : Do all users or only admins see the variable in KnowledgeHound"
         }
     ],
     "media": [
         {
             "id": "The unique identifier of the media.",
             "relative_path": "The full path to the file in S3",
-            "type": "image|video"
+            "type": "image|video",
+            "display_text": "(optional) text to display for accessibility or when the content cannot render"
         }
     ],
-    "default_crosstabs": ["Array of question or variable Ids. (Only the first two are applied)"],
-    "suggested_crosstabs": ["Array of question or variable Ids."],
-    "suggested_filters": ["Array of question or variable Ids."],
+    "default_crosstabs": ["(optional) Array of question or variable Ids. (Only the first two are applied)"],
+    "suggested_crosstabs": ["(optional) Array of question or variable Ids."],
+    "suggested_filters": ["(optional) Array of question or variable Ids."],
     "default_filters": [
         {
-            "id": "The unique id or the filter",
+            "id": "The unique id of the filter",
             "dim_type": "survey|survey_response|person",
             "filter_id": "The ID of the fact or question response.",
             "type": "equals|not_equals|contains|not_contains",
