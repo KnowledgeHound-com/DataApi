@@ -31,7 +31,7 @@ Give an intro here...
                 {
                     "id": "R3",
                     "text": "Blue"
-                }                  
+                }
             ],
             "selection_limit": 1,
             "text": "What is your favorite color?",
@@ -145,7 +145,7 @@ Give an intro here...
                 {
                     "id": "V1",
                     "type": "survey",
-                    "order": "1"
+                    "order": 1
                 }
             ]
         },
@@ -175,7 +175,7 @@ Give an intro here...
                 {
                     "id": "V1",
                     "type": "survey",
-                    "order": "1"
+                    "order": 1
                 }
             ]
         },
@@ -211,7 +211,7 @@ Give an intro here...
                 {
                     "id": "V1",
                     "type": "survey",
-                    "order": "1"
+                    "order": 1
                 }
             ]
         },
@@ -243,7 +243,7 @@ Give an intro here...
                 {
                     "id": "V1",
                     "type": "survey",
-                    "order": "1"
+                    "order": 1
                 }
             ]
         },
@@ -255,7 +255,7 @@ Give an intro here...
                 {
                     "id": "V1",
                     "type": "survey",
-                    "order": "1"
+                    "order": 1
                 }
             ]
         },
@@ -270,8 +270,8 @@ Give an intro here...
             "id": "Q1",
             "order": 1,
             "questions": [
-                { 
-                    "question_template_id": "T1", 
+                {
+                    "question_template_id": "T1",
                     "order": 1
                 }
             ]
@@ -280,8 +280,8 @@ Give an intro here...
             "id": "Q2",
             "order": 2,
             "questions": [
-                { 
-                    "question_template_id": "T2", 
+                {
+                    "question_template_id": "T2",
                     "order": 1
                 }
             ]
@@ -290,8 +290,8 @@ Give an intro here...
             "id": "Q3",
             "order": 3,
             "questions": [
-                { 
-                    "question_template_id": "T3", 
+                {
+                    "question_template_id": "T3",
                     "order": 1
                 }
             ]
@@ -300,8 +300,8 @@ Give an intro here...
             "id": "Q4",
             "order": 4,
             "questions": [
-                { 
-                    "question_template_id": "T4", 
+                {
+                    "question_template_id": "T4",
                     "order": 1
                 }
             ]
@@ -310,8 +310,8 @@ Give an intro here...
             "id": "Q5",
             "order": 5,
             "questions": [
-                { 
-                    "question_template_id": "T5", 
+                {
+                    "question_template_id": "T5",
                     "order": 1
                 }
             ]
@@ -322,13 +322,13 @@ Give an intro here...
                 {
                     "id": "V1",
                     "type": "survey",
-                    "order": "1"
+                    "order": 1
                 }
             ],
             "order": 6,
             "questions": [
-                { 
-                    "question_template_id": "T6", 
+                {
+                    "question_template_id": "T6",
                     "order": 1
                 }
             ]
@@ -339,13 +339,13 @@ Give an intro here...
                 {
                     "id": "V1",
                     "type": "survey",
-                    "order": "1"
+                    "order": 1
                 }
             ],
             "order": 7,
             "questions": [
-                { 
-                    "question_template_id": "T7", 
+                {
+                    "question_template_id": "T7",
                     "order": 1
                 }
             ]
@@ -356,17 +356,17 @@ Give an intro here...
                 {
                     "id": "V1",
                     "type": "survey",
-                    "order": "1"
+                    "order": 1
                 }
             ],
             "order": 8,
             "questions": [
-                { 
-                    "question_template_id": "T8", 
+                {
+                    "question_template_id": "T8",
                     "order": 1
                 },
-                { 
-                    "question_template_id": "T9", 
+                {
+                    "question_template_id": "T9",
                     "order": 2
                 }
             ]
@@ -377,13 +377,13 @@ Give an intro here...
                 {
                     "id": "V1",
                     "type": "survey",
-                    "order": "1"
+                    "order": 1
                 }
             ],
             "order": 9,
             "questions": [
-                { 
-                    "question_template_id": "T10", 
+                {
+                    "question_template_id": "T10",
                     "order": 1
                 }
             ]
@@ -392,8 +392,8 @@ Give an intro here...
             "id": "Q10",
             "order": 10,
             "questions": [
-                { 
-                    "question_template_id": "T11", 
+                {
+                    "question_template_id": "T11",
                     "order": 1
                 }
             ]
@@ -424,7 +424,7 @@ Give an intro here...
                 },
                 {
                     "id": "BRND5",
-                    "value": "Milka" 
+                    "value": "Milka"
                 }
             ]
         }
