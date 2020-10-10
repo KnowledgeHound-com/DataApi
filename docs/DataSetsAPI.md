@@ -65,6 +65,7 @@ Provides the ability to list, access, create, or modify the datasets this accoun
 }
 ```
 ### Modify a dataset
+- This API is not yet supported, but coming soon
 - URL: `/v2/dataset/{dataset_id}`
 - Methods: `PUT`
 - Post Body:
@@ -284,8 +285,234 @@ may be excluded when not used or sent as empty arrays.
 ```
 
 ### Survey Response Dim
-A CSV file containing responses to survey questions
-- One respondent per line
-- If a user wasn't shown a question no empty space should exist between the comas
-- The header row must match the following format. `QuestionID_QuestionTemplateId_VariationNumber_ResponseNumber` in the survey dimension
-- RFC
+A CSV file containing responses to survey questions, here are the highlights with greater detail following:
+- One respondent per line, respondent ID in column PERSON_ID
+- If a user wasn't shown a question no empty space should exist between the commas. 
+- Categorical values are represented by a 1 meaning selected, 0 meaning not selected or blank as not presented
+- The header row must match the following format. `QuestionGroupingId_QuestionTemplateId_VariableId_VariableValue_ResponseOptionId`
+- RFC 4180, UTF-8, no BOM
+
+File formatting
+---------------
+
+We require that respondent data CSV files be encoded as UTF-8 with no BOM at the start of the file.
+Files should conform to RFC 4180. We do require a header at the start of each respondent CSV, explained below.
+In a nutshell, RFC 4180 requires that fields be delimited by commas, and that no spaces should exist between
+the delimiting comma and the field: any spaces will be treated as part of the field. Fields may or may not
+be enclosed in double quotes ("), but any fields that contain double quotes as part of the data must be
+enclosed in double quotes, and the double quotes in the data must be duplicated. For example, the data:
+
+This is a "sample" field
+
+Would need to be represented in the CSV as:
+
+"This is a ""sample"" field"
+
+Fields that contain null values should be completely empty. That is, no character or other data whatsoever
+should be included between the delimiting commas or after the final comma in a row of data.
+
+We recommend that fields meant to represent an empty text string be enclosed in double quotes to
+differentiate them from null fields.
+
+Question responses
+------------------
+
+Fields containing categorical question responses should only contain either the character '1', the character '0',
+or a null (empty) field. A 1 represents a positive response to the question. A 0 represents a negative response.
+Note that these are both active responses. If a respondent was never shown the question at all, leave the field
+null.
+
+Fields containing open-ended or text responses can contain any data.
+
+Fields for integer responses should contain only numeric values with no thousands separators or decimal points.
+
+Decimal fields should always contain decimal points, even if the decimal component of the response is 0, like
+in "10.0" for example.
+
+Columns and headers
+-------------------
+
+Columns are not required to be in any particular order, except for the first column, which should be PERSON_ID.
+
+PERSON_ID is meant to allow you to correlate responses in the data you are supplying with respondent information located in the
+Person dimension. It also allows us to verify that entries are present and contiguous when data is split across multiple files.
+For this reason, we require that PERSON_ID contain a unique integer value for each respondent in the CSV, starting at 1.
+If split across multiple files, the numbering in each successive file should pick up where the previous file left off:
+if file #1 contains 50 responses, then file #2 should start with PERSON_ID 51.
+
+All successive columns after PERSON_ID are data columns, one per distinct question response.
+
+A distinct question response is the unique combination of question grouping, question template, variable, variable value, and
+response option, as specified in the Survey dimension:
+A question grouping links to one or more question templates, a question template may or may not link to a variable, 
+and a variable contains values. A categorical question will contain response options.
+
+The combination of identifiers for all of these components uniquely identifies a single response field.
+
+We require that each data column in the CSV correspond to one of these distinct fields and that the header field for that
+column contain the combined identifier in the following format:
+
+QuestionGroupingId_QuestionTemplateId_VariableId_VariableValue_ResponseOptionId
+
+If any of these 5 components do not apply for a question, they should be left as '0'. Naturally, this means that the ID '0'
+is not permitted as an identifier in the Survey dimension specification.
+
+For example, as in the sample specification, say we have a question grouping Q1:
+
+```
+{
+    "id": "Q1",
+    "order": 1,
+    "questions": [
+        {
+            "question_template_id": "T1",
+            "order": 1
+        }
+    ]
+}
+```
+
+and a corresponding question template T1:
+
+```
+{
+    "id": "T1",
+    "type": "Categorical",
+    "categorical_response_options": [
+        {
+            "id": "R1",
+            "text": "Red"
+        },
+        {
+            "id": "R2",
+            "text": "Green"
+        },
+        {
+            "id": "R3",
+            "text": "Blue"
+        }
+    ],
+    "selection_limit": 1,
+    "text": "What is your favorite color?",
+    "visible": true
+}
+```
+
+This specifies a single categorical question with no variables. The unique header fields we would expect for this question would be:
+
+Q1_T1_0_0_R1, Q1_T1_0_0_R2, Q1_T1_0_0_R3
+
+Note that there are no variables for this question, but there are response options. Therefore, we set VariableID and VariableValue
+to '0' because they did not apply. We require that non-applicable IDs be set to '0' and not omitted to differentiate ambiguous headers.
+
+As another example, let's say Q1 instead specifies a template ID of T11:
+
+{
+    "id": "T11",
+    "type": "OpenEnd",
+    "text": "Say hello to the world"
+}
+
+In this case, there would be no response options: the question is open-ended. There are also no variables. Thus, we expect only one
+header field: Q1_T11_0_0_0
+
+If a variable were specified in the question template:
+
+```
+{
+    "id": "T10",
+    "type": "Int",
+    "text": "Please rank the following from best tasting (1) to least appetizing (5)",
+    "variables": [
+        {
+            "id": "V1",
+            "type": "survey",
+            "order": 1
+        }
+    ]
+}
+```
+
+With variable V1 being specified as:
+
+```
+{
+    "id": "V1",
+    "name": "Candy Brands",
+    "description": "A few popular brands of candy",
+    "values": [
+        {
+            "id": "BRND1",
+            "value": "Snickers"
+        },
+        {
+            "id": "BRND2",
+            "value": "Reese's Peanut Butter Cups"
+        },
+        {
+            "id": "BRND3",
+            "value": "Milky Way"
+        },
+        {
+            "id": "BRND4",
+            "value": "Hershey's Bar"
+        },
+        {
+            "id": "BRND5",
+            "value": "Milka"
+        }
+    ]
+}
+```
+
+Then we would expect, still using question grouping Q1 and template T10, 5 columns and header fields, one for each variable value:
+
+Q1_T10_V1_BRND1_0, Q1_T10_V1_BRND2_0, Q1_T10_V1_BRND3_0, Q1_T10_V1_BRND4_0, Q1_T10_V1_BRND5_0
+
+Note again that the field for ResponseOptionId was left as '0' because this was not a categorical question.
+If it was a categorical question, for example with 5 possible responses, we would expect 25 fields, one for each combination
+of variable value and response option ID.
+For instance, this template specifies both variables and response options and would have 25 fields:
+
+```
+{
+    "id": "T8",
+    "type": "Categorical",
+    "categorical_response_options": [
+        {
+            "id": "R24",
+            "text": "Definitely"
+        },
+        {
+            "id": "R25",
+            "text": "Maybe"
+        },
+        {
+            "id": "R26",
+            "text": "Unsure"
+        },
+        {
+            "id": "R27",
+            "text": "Unlikely"
+        },
+        {
+            "id": "R28",
+            "text": "Won't"
+        }
+    ],
+    "selection_limit": 1,
+    "text": "Indicate your likelihood to buy [V1]",
+    "display_text": "Indicate your likelihood to buy [brand]",
+    "variables": [
+        {
+            "id": "V1",
+            "type": "survey",
+            "order": 1
+        }
+    ]
+}
+```
+
+If there were more than one variable, for example, 3 variables each with 5 values, and also 5 categorical response options,
+we would expect 75 headers/columns for that question.
+
