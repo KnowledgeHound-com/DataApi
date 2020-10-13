@@ -65,7 +65,8 @@ Provides the ability to list, access, create, or modify the datasets this accoun
 }
 ```
 ### Modify a dataset
-- This API is not yet supported, but coming soon
+- This API accepts the full JSON dataset specification and supports updating dimensions only, 
+other field updates will be supported soon.
 - URL: `/v2/dataset/{dataset_id}`
 - Methods: `PUT`
 - Post Body:
