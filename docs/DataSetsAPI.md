@@ -40,7 +40,7 @@ Provides the ability to list, access, create, or modify the datasets this accoun
 ```
 
 ### Create a dataset
-- URL: `/v2/dataset/{dataset_id}`
+- URL: `/v2/dataset/`
 - Methods: `POST`
 - Post Body:
 ```json
@@ -61,8 +61,16 @@ Provides the ability to list, access, create, or modify the datasets this accoun
 ```json
 {
   "status": "processing|validation_failure",
-  "errors": ["strings"]
+  "dataset_id": "<knowledgehound id>"
 }
+```
+- Callback:
+```json
+{
+  "dataset": "<knowledgehound id>",
+  "success": true,
+  "exceptions": ["error/exception messages", ...]
+} 
 ```
 ### Modify a dataset
 - This API accepts the full JSON dataset specification and supports updating dimensions only, 
@@ -88,7 +96,7 @@ other field updates will be supported soon.
 ```json
 {
   "status": "processing|validation_failure",
-  "errors": ["strings"]
+  "dataset_id": "<knowledgehound id>"
 }
 ```
 
