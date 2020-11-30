@@ -1,6 +1,9 @@
 # KnowledgeHound Person Dimension JSON Specification
 
-Give an intro here...
+The Person dimension is intended to allow inclusion of survey respondent information that can
+potentially be correlated with survey responses.
+
+For more details, see the DataSetsAPI document.
 
 ## Sample
 ```json

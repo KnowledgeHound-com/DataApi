@@ -1,6 +1,9 @@
 # KnowledgeHound Survey Dimension JSON Specification
 
-Give an intro here...
+The Survey dimension specification is intended to encapsulate and define details about a survey, including
+survey metadata, such as description and dates, and survey question content.
+
+For more details, see the DataSetsAPI document.
 
 ## Sample
 ```json
@@ -15,6 +18,8 @@ Give an intro here...
     "base_description": "All respondents were imagined by a GAN",
     "base_size": "10",
     "response_count": "10",
+    "source_url": "https://www.knowledgehound.com",
+    "source_display_text": "Knowledgehound Home",
     "question_templates": [
         {
             "id": "T1",
@@ -107,7 +112,9 @@ Give an intro here...
             "type": "Int",
             "text": "How old are you?",
             "visible": false,
-            "tags": ["age"]
+            "tags": ["age"],
+            "default_weighting": true,
+            "weighting_label": "Respondent Age"
         },
         {
             "id": "T5",
