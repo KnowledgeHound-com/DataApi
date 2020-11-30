@@ -140,7 +140,7 @@ A JSON file containing the list of unique people who have participated in the su
 
 If the same person exists in multiple datasets, their ID should remain consistent. Some countries and research may not 
 allow for the identification of a person across multiple datasets. In these cases, the ID should be an incrementing 
-number that is consistent between the person dimension and the survey response dimension
+value that is consistent between the person dimension and the survey response dimension.
 
 
 KnowledgeHound has defined several core attributes about a person. These attributes are all optional and sit at the
@@ -354,10 +354,9 @@ Columns and headers
 Columns are not required to be in any particular order, except for the first column, which should be PERSON_ID.
 
 PERSON_ID is meant to allow you to correlate responses in the data you are supplying with respondent information located in the
-Person dimension. It also allows us to verify that entries are present and contiguous when data is split across multiple files.
-For this reason, we require that PERSON_ID contain a unique integer value for each respondent in the CSV, starting at 1.
-If split across multiple files, the numbering in each successive file should pick up where the previous file left off:
-if file #1 contains 50 responses, then file #2 should start with PERSON_ID 51.
+Person dimension.
+For this reason, we require that PERSON_ID contain a unique value for each respondent in the CSV. PERSON_ID values
+should be alphanumeric.
 
 All successive columns after PERSON_ID are data columns, one per distinct question response.
 
