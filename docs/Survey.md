@@ -19,7 +19,7 @@ For more details, see the DataSetsAPI document.
     "base_size": "10",
     "response_count": "10",
     "source_url": "https://www.knowledgehound.com",
-    "source_display_text": "Knowledgehound Home",
+    "source_display_text": "KnowledgeHound Home",
     "question_templates": [
         {
             "id": "T1",

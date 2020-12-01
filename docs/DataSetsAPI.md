@@ -217,7 +217,7 @@ provide a more concise identifier for the question - for example, if the questio
     "base_size": "int (optional): Count to use as base size, this may be different then response_count when applying weighting",
     "response_count": "int: Number of responses in the response file(s)",
     "source_url": "(optional) A url to the original research study in the source system",
-    "source_display_text": "(optional) A text snippet to use as a display replacement for the source URL in Knowledgehound",
+    "source_display_text": "(optional) A text snippet to use as a display replacement for the source URL in KnowledgeHound",
     "question_templates": [
         {
             "id": "The unique identifier of the question template",
