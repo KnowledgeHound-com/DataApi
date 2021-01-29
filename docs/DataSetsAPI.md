@@ -69,7 +69,7 @@ Provides the ability to list, access, create, or modify the datasets this accoun
 {
   "dataset": "<knowledgehound id>",
   "success": true,
-  "exceptions": ["error/exception messages", ...]
+  "exceptions": ["error/exception messages", "..."]
 } 
 ```
 ### Modify a dataset
@@ -135,7 +135,7 @@ This section of the document provides the file specification for transferring da
 - If the Survey Response dimension file exceeds 2GB decompressed, it should be chunked or partitioned. Each chunk should
 ideally be between 200MB and 2GB. Additionally each chunk must be individually compressed and sent as a discrete file. 
 
-### Person Dim
+### Person Dimension
 A JSON file containing the list of unique people who have participated in the survey.
 
 If the same person exists in multiple datasets, their ID should remain consistent. Some countries and research may not 
@@ -191,7 +191,7 @@ root of the person object. Additional attributes may be defined in the attribute
 }
 ```
 
-### Survey Dim
+### Survey Dimension
 A JSON file defining the programing of the survey.
 
 Note: The default_crosstabs, suggested_crosstabs, suggested_filters, and default_filters arrays are all optional. They
@@ -202,6 +202,45 @@ fields on a question template. Both fields are optional, but if used, only one t
 Only a numeric question can be used for this purpose - either types `Int` or `Decimal`. Use `weighting_label` to
 provide a more concise identifier for the question - for example, if the question is "How old are you?", consider using
 "Respondent Age" as the `weighting_label` if selecting the question for default weighting.
+
+The Survey dimension also supports a form of hierarchical generic metadata entry that can be used to feed KnowledgeHound's
+flexible survey metadata. This field can be omitted or left as an empty object `"metadata": {}` if not desired:
+
+To set metadata fields, include `metadata` as an object containing the desired metadata field name as a key and the field
+value as a value. You can specify multiple fields:
+
+```
+"metadata": {
+    "field_1": "value_1",
+    "field_2": "value_2"
+}
+```
+
+KnowledgeHound supports hierarchical metadata fields. You can specify fields of this kind by nesting objects and using the key
+of the nested object as the parent metadata field value, and the value of the object as the child metadata field value.
+For example, you can specify a field named `FruitType` with a parent value of `Berry` and a child value of `Strawberry` as follows:
+
+```
+"metadata": {
+    "FruitType": {
+        "Berry": "Strawberry"
+    }
+}
+```
+
+This would allow the study in KnowledgeHound to be tagged with both Berry and Strawberry categories that can be used as filters. You can also continue nesting, as well as specify other fields:
+
+```
+"metadata": {
+    "Sweetness": "High",
+    "FoodType": {
+        "Fruit": {
+            "Citrus": "Orange"
+        }
+    }
+}
+```
+### Schema
 
 ```json
 {
@@ -218,6 +257,9 @@ provide a more concise identifier for the question - for example, if the questio
     "response_count": "int: Number of responses in the response file(s)",
     "source_url": "(optional) A url to the original research study in the source system",
     "source_display_text": "(optional) A text snippet to use as a display replacement for the source URL in KnowledgeHound",
+    "metadata": {
+        "metadata_field_1": "(optional) A set of field-value entries that can be set as flexible metadata in KnowledgeHound"
+    },
     "question_templates": [
         {
             "id": "The unique identifier of the question template",
@@ -235,7 +277,7 @@ provide a more concise identifier for the question - for example, if the questio
             "description": "(optional) Any additional information about the question",
             "visible": "boolean (optional): Defaults to true : Do all users or only admins see the question in KnowledgeHound",
             "default_weighting": "boolean (optional): Defaults to false - use this question as the weighting variable by default",
-            "weighting_label": "(optional): Display text to more concisely describe the weighting variable"
+            "weighting_label": "(optional): Display text to more concisely describe the weighting variable",
             "tags": ["string (optional)"],
             "variables": [
                 {
@@ -303,7 +345,7 @@ provide a more concise identifier for the question - for example, if the questio
 }
 ```
 
-### Survey Response Dim
+### Survey Response Dimension
 A CSV file containing responses to survey questions, here are the highlights with greater detail following:
 - One respondent per line, respondent ID in column PERSON_ID
 - If a user wasn't shown a question no empty space should exist between the commas. 
