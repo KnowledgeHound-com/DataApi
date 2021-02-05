@@ -204,7 +204,9 @@ provide a more concise identifier for the question - for example, if the questio
 "Respondent Age" as the `weighting_label` if selecting the question for default weighting.
 
 The Survey dimension also supports a form of hierarchical generic metadata entry that can be used to feed KnowledgeHound's
-flexible survey metadata. This field can be omitted or left as an empty object `"metadata": {}` if not desired:
+flexible survey metadata. This field can be omitted or left as an empty object `"metadata": {}` if not desired.
+
+NOTE: At this time, metadata using this method can only be set at first-time Data API survey creation, not during updates.
 
 To set metadata fields, include `metadata` as an object containing the desired metadata field name as a key and the field
 value as a value. You can specify multiple fields:
