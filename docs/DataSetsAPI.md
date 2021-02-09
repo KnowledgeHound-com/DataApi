@@ -75,7 +75,7 @@ Provides the ability to list, access, create, or modify the datasets this accoun
 ### Modify a dataset
 - This API accepts the full JSON dataset specification and supports updating dimensions only, 
 other field updates will be supported soon.
-- URL: `/v2/dataset/{dataset_id}`
+- URL: `/v2/dataset/{source_dataset_id}` (or deprecated `/v2/dataset/{dataset_id}`)
 - Methods: `PUT`
 - Post Body:
 ```json
@@ -101,7 +101,7 @@ other field updates will be supported soon.
 ```
 
 ### Get dataset details
-- URL: `/v2/dataset/{dataset_id}`
+- URL: `/v2/dataset/{source_dataset_id}` (or deprecated `/v2/dataset/{dataset_id}`)
 - Methods: `GET`
 - Response Body:
 ```json
