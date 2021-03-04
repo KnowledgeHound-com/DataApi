@@ -328,6 +328,7 @@ This would allow the study in KnowledgeHound to be tagged with both Berry and St
         {
             "id": "The unique identifier of the media.",
             "relative_path": "The full path to the file in S3",
+            "url": "The publicly accessible URL of the file. This can be used in place of relative_path.",
             "type": "image|video",
             "display_text": "(optional) text to display for accessibility or when the content cannot render"
         }
