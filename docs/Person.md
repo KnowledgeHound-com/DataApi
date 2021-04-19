@@ -8,51 +8,7 @@ For more details, see the DataSetsAPI document.
 ## Sample
 ```json
 {
-    "attribute": [
-        {
-            "id": "age_range",
-            "name": "Age",
-            "description": "Age of respondent",
-            "visible":true,
-            "values": [
-                {
-                    "id": 0,
-                    "value": "< 18",
-                    "display_value": "Under 18"
-                },
-                {
-                    "id": 1,
-                    "value": "18-22",
-                    "display_value": "18-22 Years Old"
-                },
-                {
-                    "id": 2,
-                    "value": "23-29",
-                    "display_value": "23-29 Years Old"
-                },
-                {
-                    "id": 3,
-                    "value": "30-39",
-                    "display_value": "30-39 Years Old"
-                },
-                {
-                    "id": 4,
-                    "value": "40-49",
-                    "display_value": "40-49 Years Old"
-                },
-                {
-                    "id": 5,
-                    "value": "50-59",
-                    "display_value": "50-59 Years Old"
-                },
-                {
-                    "id": 6,
-                    "value": ">= 60",
-                    "display_value": "60+ Years Old"
-                }
-            ]
-        }
-    ],
+    "attribute": [],
     "person": [
         {
             "id": "1",
@@ -82,12 +38,7 @@ For more details, see the DataSetsAPI document.
             "email": "priya@ponnappa.com",
             "phone": "123-555-7777",
             "postal_code": "54321",
-            "attributes": [
-                {
-                    "id": "age_range",
-                    "values": [4]
-                }
-            ]
+            "attributes": []
         },
         {
             "id": "3",
@@ -102,12 +53,7 @@ For more details, see the DataSetsAPI document.
             "email": "mia@wong.com",
             "phone": "777-555-1234",
             "postal_code": "23451",
-            "attributes": [
-                {
-                    "id": "age_range",
-                    "values": [1]
-                }
-            ]
+            "attributes": []
         },
         {
             "id": "4",

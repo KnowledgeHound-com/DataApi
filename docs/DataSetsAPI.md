@@ -144,47 +144,47 @@ value that is consistent between the person dimension and the survey response di
 
 
 KnowledgeHound has defined several core attributes about a person. These attributes are all optional and sit at the
-root of the person object. Additional attributes may be defined in the attributes object.
+root of the person object. In the future, custom attributes will be supported in the 'attribute' object.
+
+
+Where a person attribute is listed as having multiple types such as "decimal or string", they will first be parsed as
+a numeric type and default to a string to allow support for individual values and ranges. All person entries must be
+type consistent. Mixing numerics or strings in response data for the same field will cause errors.
 
 ```json
 {
     "attribute": [
-        {
-            "id": "The unique ID for the attribute.",
-            "name": "The human readable name for the variable",
-            "description": "description of the attribute (optional)",
-            "visible": "boolean : Defaults to true : Do all users or only admins see the fact",
-            "values": [
-                {
-                    "id": "string: The unique ID for this value",
-                    "value": "string",
-                    "display_value": "string (optional): If no display text is included, the value field is displayed.",
-                    "sort_order": "int (optional): Controls the default ordering in lists and controls. When not sent we apply an alphanumeric sort."
-                }
-            ]
-        }
+      {"to be defined in the future": null}
     ],
     "person": [
         {
             "id": "The unique ID from the source system for this person",
-            "first_name": "string (optional)",
-            "last_name": "string (optional)",
+            "first_name": "string (optional) - not currently imported for PII protection",
+            "last_name": "string (optional) - not currently imported for PII protection",
             "gender": "Male|Female|Non-Binary (optional)",
             "age": "int (optional)",
-            "income": "decimal: household income in USD (optional)",
+            "income": "int (optional) personal income (optional)",
+            "household_income": "int (optional) household income  (optional)",
             "household_size": "int (optional)",
             "count_of_children": "int (optional)",
             "marital_status": "divorced|married|separated|single|widowed (optional)",
             "home_ownership": "own|rent|relative (optional)",
-            "email": "string (optional)",
-            "phone": "string (optional)",
+            "email": "string (optional) - not currently imported for PII protection",
+            "phone": "string (optional) - not currently imported for PII protection",
+            "city": "string (optional)",
+            "region": "string (optional)",
+            "county": "string (optional)",
+            "state": "string (optional)",
             "postal_code": "string (optional)",
             "country": "string (optional)",
+            "career": "string (optional)",
+            "education_level": "string (optional)",
+            "ethnicity": "string (optional)",
+            "political_affiliation": "string (optional)",
+            "employment_status": "string (optional)",
+            "religion": "string (optional)",
             "attributes": [
-                {
-                    "id": "The variable used in the question template",
-                    "values": ["The values to apply to the person"]
-                }
+              {"to be defined in the future": null}
             ]
         }
     ]
@@ -193,9 +193,6 @@ root of the person object. Additional attributes may be defined in the attribute
 
 ### Survey Dimension
 A JSON file defining the programing of the survey.
-
-Note: The default_crosstabs, suggested_crosstabs, suggested_filters, and default_filters arrays are all optional. They
-may be excluded when not used or sent as empty arrays.
 
 The Survey dimension supports specifying a default weighting variable, using the `default_weighting` and `weighting_label`
 fields on a question template. Both fields are optional, but if used, only one template should be marked as such.
@@ -333,18 +330,6 @@ This would allow the study in KnowledgeHound to be tagged with both Berry and St
             "display_text": "(optional) text to display for accessibility or when the content cannot render"
         }
     ],
-    "default_crosstabs": ["(optional) Array of question or variable Ids. (Only the first two are applied)"],
-    "suggested_crosstabs": ["(optional) Array of question or variable Ids."],
-    "suggested_filters": ["(optional) Array of question or variable Ids."],
-    "default_filters": [
-        {
-            "id": "The unique id of the filter",
-            "dim_type": "survey|survey_response|person",
-            "filter_id": "The ID of the fact or question response.",
-            "type": "equals|not_equals|contains|not_contains",
-            "values": ["values"]
-        }
-    ]
 }
 ```
 
