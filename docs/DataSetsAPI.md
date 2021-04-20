@@ -165,6 +165,8 @@ type consistent. Mixing numerics or strings in response data for the same field 
             "age": "int (optional)",
             "income": "int (optional) personal income (optional)",
             "household_income": "int (optional) household income  (optional)",
+            "income_range": "string (optional)",
+            "household_income_range": "string (optional)",
             "household_size": "int (optional)",
             "count_of_children": "int (optional)",
             "marital_status": "divorced|married|separated|single|widowed (optional)",
