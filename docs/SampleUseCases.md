@@ -191,6 +191,54 @@ alpha,Open ended response text here
 9,Open ended response text here
 ```
 
+## Numeric Question: How old are you?
+
+### Question Template T4:
+
+```json
+{
+    "id": "T4",
+    "type": "Int",
+    "text": "How old are you?",
+    "visible": false,
+    "tags": ["age"],
+    "default_weighting": true,
+    "weighting_label": "Respondent Age"
+}
+```
+
+Note: The type may be "Int" or "Decimal", and this example defines this numeric question as the default weighting 
+variable for the dataset, and the label which describes the weighting.
+
+### Question Grouping Q4:
+
+```json
+{
+    "id": "Q4",
+    "order": 4,
+    "questions": [
+        {
+            "question_template_id": "T4",
+            "order": 1
+        }
+    ]
+}
+```
+
+### CSV
+
+```csv
+PERSON_ID,Q4_T4_0_0_0
+alpha,22
+2,45
+3,64
+4,26
+5,36
+6,19
+7,54
+8,42
+9,33
+```
 
 ## Grid/Matrix Question: Where have you purchased each brand?
 
