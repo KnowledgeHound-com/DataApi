@@ -21,8 +21,6 @@ For more details, see the DataSetsAPI document.
             "count_of_children": 2,
             "marital_status": "married",
             "home_ownership": "own",
-            "email": "john@stone.com",
-            "phone": "555-123-7777",
             "postal_code": "12345"
         },
         {
@@ -35,8 +33,6 @@ For more details, see the DataSetsAPI document.
             "count_of_children": 4,
             "marital_status": "married",
             "home_ownership": "own",
-            "email": "priya@ponnappa.com",
-            "phone": "123-555-7777",
             "postal_code": "54321",
             "attributes": []
         },
@@ -50,8 +46,6 @@ For more details, see the DataSetsAPI document.
             "household_size": 1,
             "marital_status": "single",
             "home_ownership": "rent",
-            "email": "mia@wong.com",
-            "phone": "777-555-1234",
             "postal_code": "23451",
             "attributes": []
         },
@@ -65,8 +59,6 @@ For more details, see the DataSetsAPI document.
             "count_of_children": 2,
             "marital_status": "widowed",
             "home_ownership": "own",
-            "email": "peter@stanbridge.com",
-            "phone": "777-555-4321",
             "postal_code": "15432"
         },
         {
@@ -80,8 +72,6 @@ For more details, see the DataSetsAPI document.
             "count_of_children": 1,
             "marital_status": "married",
             "home_ownership": "rent",
-            "email": "natalie@walsh.com",
-            "phone": "231-555-7777",
             "postal_code": "34512"
         },
         {
@@ -94,8 +84,6 @@ For more details, see the DataSetsAPI document.
             "count_of_children": 1,
             "marital_status": "married",
             "home_ownership": "own",
-            "email": "ang@li.com",
-            "phone": "132-555-7777",
             "postal_code": "21543"
         },
         {
@@ -108,8 +96,6 @@ For more details, see the DataSetsAPI document.
             "household_size": 1,
             "marital_status": "separated",
             "home_ownership": "own",
-            "email": "nguta@ithya.com",
-            "phone": "555-231-7777",
             "postal_code": "45123"
         },
         {
@@ -122,8 +108,6 @@ For more details, see the DataSetsAPI document.
             "count_of_children": 3,
             "marital_status": "married",
             "home_ownership": "own",
-            "email": "tamzyn@french.com",
-            "phone": "555-132-7777",
             "postal_code": "51234"
         },
         {
@@ -136,8 +120,6 @@ For more details, see the DataSetsAPI document.
             "household_size": 1,
             "marital_status": "single",
             "home_ownership": "rent",
-            "email": "salome@simeos.com",
-            "phone": "555-231-7777",
             "postal_code": "43215"
         },
         {
@@ -149,7 +131,6 @@ For more details, see the DataSetsAPI document.
             "household_size": 2,
             "marital_status": "married",
             "home_ownership": "own",
-            "phone": "555-777-2341",
             "postal_code": "43251"
         }
     ]

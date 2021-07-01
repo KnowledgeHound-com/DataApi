@@ -331,7 +331,7 @@ This would allow the study in KnowledgeHound to be tagged with both Berry and St
             "type": "image|video",
             "display_text": "(optional) text to display for accessibility or when the content cannot render"
         }
-    ],
+    ]
 }
 ```
 
