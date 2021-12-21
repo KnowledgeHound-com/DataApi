@@ -1,2 +1,3 @@
 # KnowledgeHound Data API
- Welcome to the KnowledgeHound Data API project. To get started, please review the documentation in the `docs` folder of this repo.
+The documentation for the KnowledgeHound Data API has moved to https://apidoc.knowledgehound.com/
+
